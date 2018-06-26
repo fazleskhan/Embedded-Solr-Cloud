@@ -3,6 +3,8 @@ package embed.solr.cloud;
 
 import static org.junit.Assert.assertEquals;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import lombok.extern.log4j.Log4j;
 
 import org.apache.solr.client.solrj.SolrServerException;
@@ -28,11 +30,15 @@ public class TheTest extends BaseTest {
   @Test
   public void testPingCluster() throws IOException, SolrServerException {
     ClassLoader classLoader = getClass().getClassLoader();
-    String collectionConfDir = classLoader.getResource("test-collection-config").getFile();
+    //String collectionConfDir = classLoader.getResource("test-collection-config").getFile();
 
+    //uploadConfig(Path configPath, String configName)
     //upload config for collection
-    miniSolrCloudCluster.getSolrClient().uploadConfig(FileSystems.getDefault().getPath(
-        collectionConfDir), configName);
+    //miniSolrCloudCluster.getSolrClient().uploadConfig(FileSystems.getDefault().getPath(
+    //    collectionConfDir), configName);
+
+    Path collectionConfDir = Paths.get("target");
+    miniSolrCloudCluster.getSolrClient().uploadConfig(collectionConfDir,configName);
 
     //create collection
     miniSolrCloudCluster.createCollection("test-collection", 1, 1, configName,
