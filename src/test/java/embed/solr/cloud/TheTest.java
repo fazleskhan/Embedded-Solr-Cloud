@@ -1,9 +1,9 @@
 package embed.solr.cloud;
 
 
-import lombok.extern.log4j.Log4j;
+import static org.junit.Assert.assertEquals;
 
-import junit.framework.Assert;
+import lombok.extern.log4j.Log4j;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrClient;
@@ -23,8 +23,7 @@ import java.util.HashMap;
 @Log4j
 public class TheTest extends BaseTest {
 
-  String configName = "test-collection-config";
-  String collectionName = "test-collection";
+  private final String configName = "test-collection-config";
 
   @Test
   public void testPingCluster() throws IOException, SolrServerException {
@@ -56,6 +55,7 @@ public class TheTest extends BaseTest {
         collectionConfDir), configName);
 
     //create collection
+    String collectionName = "test-collection";
     miniSolrCloudCluster.createCollection(collectionName, 1, 1, configName,
         new HashMap<String, String>());
 
@@ -75,7 +75,7 @@ public class TheTest extends BaseTest {
     cloudClient.add(doc1);
     cloudClient.add(doc2);
     cloudClient.commit();
-    log.info("Successfully commited records to solr cloud using Cloud solr client");
+    log.info("Successfully committed records to solr cloud using Cloud solr client");
 
     //now query the records.
     final ModifiableSolrParams solrQuery = new ModifiableSolrParams();
@@ -88,7 +88,7 @@ public class TheTest extends BaseTest {
     solrQuery.set("collection", collectionName);
 
     QueryResponse response = miniSolrCloudCluster.getSolrClient().query(solrQuery);
-    Assert.assertEquals(2, ((SolrDocumentList) response.getResponse().get("response")).size());
+    assertEquals(2, ((SolrDocumentList) response.getResponse().get("response")).size());
     log.info("Successfully fetched records from solr cloud using Cloud solr client");
   }
 

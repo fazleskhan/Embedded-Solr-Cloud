@@ -9,7 +9,7 @@ mvn clean compile test
 
 1. creation of solr cloud cluster using 1 node and 1 zookeeper instance
 2. how to create a collection along with its configs
-3. conncecting to this solr cloud using solr cloud client i.e. using zookeeper url
+3. connecting to this solr cloud using solr cloud client i.e. using zookeeper url
 
 
 # Notes:

@@ -19,17 +19,14 @@ import java.util.HashMap;
  * Created by vishnuhr on 9/9/16.
  */
 @Log4j
-public abstract class BaseTest {
+abstract class BaseTest {
 
-  public static final String SOLR_HOME_DIR = "SOLR_HOME";
-  public static final String ZK_DIR = "ZK_DIR";
-  public static final int ZK_PORT = 2188;
+  private static final String SOLR_HOME_DIR = "SOLR_HOME";
+  private static final String ZK_DIR = "ZK_DIR";
+  static final int ZK_PORT = 2188;
 
-  private static String SOLR_XML = "<solr>\n\n  <str name=\"shareSchema\">${shareSchema:false}</str>\n  <str name=\"configSetBaseDir\">${configSetBaseDir:configsets}</str>\n  <str name=\"coreRootDirectory\">${coreRootDirectory:.}</str>\n\n  <shardHandlerFactory name=\"shardHandlerFactory\" class=\"HttpShardHandlerFactory\">\n    <str name=\"urlScheme\">${urlScheme:}</str>\n    <int name=\"socketTimeout\">${socketTimeout:90000}</int>\n    <int name=\"connTimeout\">${connTimeout:15000}</int>\n  </shardHandlerFactory>\n\n  <solrcloud>\n    <str name=\"host\">127.0.0.1</str>\n    <int name=\"hostPort\">${hostPort:8983}</int>\n    <str name=\"hostContext\">${hostContext:solr}</str>\n    <int name=\"zkClientTimeout\">${solr.zkclienttimeout:30000}</int>\n    <bool name=\"genericCoreNodeNames\">${genericCoreNodeNames:true}</bool>\n    <int name=\"leaderVoteWait\">10000</int>\n    <int name=\"distribUpdateConnTimeout\">${distribUpdateConnTimeout:45000}</int>\n    <int name=\"distribUpdateSoTimeout\">${distribUpdateSoTimeout:340000}</int>\n  </solrcloud>\n  \n</solr>\n";
-  private static int numServersInCloud = 1;
-
-  protected MiniSolrCloudCluster miniSolrCloudCluster;
-  protected ZkTestServer zkTestServer;
+  MiniSolrCloudCluster miniSolrCloudCluster;
+  private ZkTestServer zkTestServer;
   private File solrHome;
   private File zkDir;
 
@@ -44,11 +41,13 @@ public abstract class BaseTest {
     log.info(
         "Started Zk server. Configure solr client to use address: " + zkTestServer.getZkAddress());
 
+    String SOLR_XML = "<solr>\n\n  <str name=\"shareSchema\">${shareSchema:false}</str>\n  <str name=\"configSetBaseDir\">${configSetBaseDir:configsets}</str>\n  <str name=\"coreRootDirectory\">${coreRootDirectory:.}</str>\n\n  <shardHandlerFactory name=\"shardHandlerFactory\" class=\"HttpShardHandlerFactory\">\n    <str name=\"urlScheme\">${urlScheme:}</str>\n    <int name=\"socketTimeout\">${socketTimeout:90000}</int>\n    <int name=\"connTimeout\">${connTimeout:15000}</int>\n  </shardHandlerFactory>\n\n  <solrcloud>\n    <str name=\"host\">127.0.0.1</str>\n    <int name=\"hostPort\">${hostPort:8983}</int>\n    <str name=\"hostContext\">${hostContext:solr}</str>\n    <int name=\"zkClientTimeout\">${solr.zkclienttimeout:30000}</int>\n    <bool name=\"genericCoreNodeNames\">${genericCoreNodeNames:true}</bool>\n    <int name=\"leaderVoteWait\">10000</int>\n    <int name=\"distribUpdateConnTimeout\">${distribUpdateConnTimeout:45000}</int>\n    <int name=\"distribUpdateSoTimeout\">${distribUpdateSoTimeout:340000}</int>\n  </solrcloud>\n  \n</solr>\n";
+    int numServersInCloud = 1;
     miniSolrCloudCluster = new MiniSolrCloudCluster(numServersInCloud,
         FileSystems.getDefault().getPath(solrHome.getAbsolutePath()),
         SOLR_XML,
         jettyConfig, zkTestServer);
-    log.info("Created Minicluster with number of nodes = " + numServersInCloud);
+    log.info("Created mini-cluster with number of nodes = " + numServersInCloud);
   }
 
   @After
