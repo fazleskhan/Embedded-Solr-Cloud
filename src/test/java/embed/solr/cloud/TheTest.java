@@ -1,23 +1,13 @@
 package embed.solr.cloud;
 
 
-import static org.junit.Assert.assertEquals;
-
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import lombok.extern.log4j.Log4j;
-
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CloudSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.util.HashMap;
+import lombok.extern.log4j.Log4j;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.junit.Test;
 
 /**
  * The Test cases
@@ -38,7 +28,7 @@ public class TheTest extends BaseTest {
     //    collectionConfDir), configName);
 
     Path collectionConfDir = Paths.get("target");
-    miniSolrCloudCluster.getSolrClient().uploadConfig(collectionConfDir,configName);
+    miniSolrCloudCluster.getSolrClient().uploadConfig(collectionConfDir, configName);
 
     //create collection
     miniSolrCloudCluster.createCollection("test-collection", 1, 1, configName,
@@ -50,7 +40,7 @@ public class TheTest extends BaseTest {
     log.info(miniSolrCloudCluster.getSolrClient().ping());
     log.info("Pinging Done....");
   }
-
+/*
   @Test
   public void testPutAndGetDocumentsTest() throws IOException, SolrServerException {
     ClassLoader classLoader = getClass().getClassLoader();
@@ -96,6 +86,6 @@ public class TheTest extends BaseTest {
     QueryResponse response = miniSolrCloudCluster.getSolrClient().query(solrQuery);
     assertEquals(2, ((SolrDocumentList) response.getResponse().get("response")).size());
     log.info("Successfully fetched records from solr cloud using Cloud solr client");
-  }
+  }*/
 
 }

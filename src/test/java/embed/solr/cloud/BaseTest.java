@@ -1,7 +1,10 @@
 package embed.solr.cloud;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.util.HashMap;
 import lombok.extern.log4j.Log4j;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.embedded.JettyConfig;
 import org.apache.solr.cloud.MiniSolrCloudCluster;
@@ -10,21 +13,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.After;
 import org.junit.Before;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.util.HashMap;
-
 /**
  * Created by vishnuhr on 9/9/16.
  */
 @Log4j
 abstract class BaseTest {
 
+  static final int ZK_PORT = 2188;
   private static final String SOLR_HOME_DIR = "SOLR_HOME";
   private static final String ZK_DIR = "ZK_DIR";
-  static final int ZK_PORT = 2188;
-
   MiniSolrCloudCluster miniSolrCloudCluster;
   private ZkTestServer zkTestServer;
   private File solrHome;
